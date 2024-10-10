@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="../index3.html" class="brand-link">
       <img src="templates/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Reminder</span>
     </a>
 
     <!-- Sidebar -->
@@ -13,7 +13,7 @@
           <img src="templates/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">Basuki Wahidun</a>
         </div>
       </div>
       <!-- SidebarSearch Form -->
@@ -33,11 +33,20 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="calendar.html" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
                 Calendar
-                <span class="badge badge-info right">2</span>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user-alt"></i>
+              <p>
+                Pengguna
+                <span class="rigth fas"></span>
               </p>
             </a>
           </li>
