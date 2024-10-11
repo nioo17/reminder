@@ -13,6 +13,12 @@
   <link rel="stylesheet" href="{{ asset('templates/plugins/fullcalendar/main.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('templates/dist/css/adminlte.min.css') }}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{{ asset('templates/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -97,6 +103,40 @@
 <script src="{{ asset('/templates/plugins/fullcalendar/main.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/templates/dist/js/demo.js') }}"></script>
+<!-- jQuery -->
+<script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- ChartJS -->
+<script src="{{ asset('/templates/plugins/chart.js/Chart.min.js') }}"></script>
+<!-- Sparkline -->
+<script src="{{ asset('/templates/plugins/sparklines/sparkline.js') }}"></script>
+<!-- JQVMap -->
+<script src="{{ asset('/templates/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+<script src="{{ asset('/templates/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{{ asset('/templates/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+<!-- daterangepicker -->
+<script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('/templates/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ asset('/templates/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ asset('/templates/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<!-- overlayScrollbars -->
+<script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('/templates/dist/js/demo.js') }}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{{ asset('/templates/dist/js/pages/dashboard.js') }}"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
