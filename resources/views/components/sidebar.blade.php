@@ -20,38 +20,43 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas"></i>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                Calendar
-                <span class="badge badge-info right"></span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-alt"></i>
-              <p>
-                Pengguna
-                <span class="rigth fas"></span>
-              </p>
-            </a>
-          </li>
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a href="/" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Dashboard
+                    </p>
+                </a>
+            </li>
+            
+            <!-- Data Master Dropdown -->
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-chart-bar"></i>
+                    <p>
+                        Data Master
+                        <i class="right fas fa-angle-left"></i> <!-- Icon for dropdown indicator -->
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/event" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Data Events</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pengguna" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Data Pengguna</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
-      </nav>
+    </nav>    
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
