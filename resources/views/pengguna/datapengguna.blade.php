@@ -1,9 +1,12 @@
+@if (session()->has('message'))
+<p class="alert alert-info">{{ session('message') }}</p>
+@endif
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pengguna</title>
+  <title>Data Pengguna</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -36,13 +39,53 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dashboard</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Calendar</li>
-            </ol>
+        <div class="card mb-3">
+            <div class="card-header">
+                <form class="row row-cols-auto g-1">
+                    <div class="col">
+                        <button class="btn btn-primary"><i class="fa fa-arrows-rotate" style="color: #ffffff;"></i> Refresh</button>
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
+                    </div>
+                </form>
+            </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped m-0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>ID Telegram</th>
+                    </tr>
+                </thead>
+                {{-- <?php $no = 1; ?>
+                @foreach ($penggunas as $pengguna)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $pengguna->nama }}</td>
+                        <td>{{ $pengguna->email }}</td>
+                        <td>{{ $pengguna->id_telegram }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="#"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></a>
+                            <form method="POST" class="d-inline" action="#">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger"
+                                    onclick="return confirm('Are you sure to delete?')"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach --}}
+            </table>
+    </div>
+    </div>
+    {{-- @if ($penggunas->hasPages())
+            <div class="card-footer">
+                {{ $penggunas->links() }}
+            </div>
+     @endif --}}
           </div>
         </div>
       </div><!-- /.container-fluid -->

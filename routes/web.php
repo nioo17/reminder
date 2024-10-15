@@ -12,7 +12,7 @@ Route::get('/event', function () {
 });
 
 Route::get('/pengguna', function () {
-    return view('layouts.datapengguna');
+    return view('pengguna.datapengguna');
 });
 
 
