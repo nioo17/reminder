@@ -23,11 +23,9 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
+        } else {
+            return redirect()->back()->with('gagal', 'Email atau Password anda salah');
         }
-
-        return back()->withErrors([
-            'email' => 'Email atau Password anda salah.',
-        ]);
     }
 
     public function logout(Request $request)
