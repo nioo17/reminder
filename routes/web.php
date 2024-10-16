@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PenggunaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -11,10 +12,7 @@ Route::get('/event', function () {
     return view('event.dataevent');
 });
 
-Route::get('/pengguna', function () {
-    return view('pengguna.datapengguna');
-});
-
+Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna');
 
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/', [AuthController::class, 'login']);

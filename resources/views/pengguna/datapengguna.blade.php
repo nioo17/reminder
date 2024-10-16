@@ -1,28 +1,12 @@
-@if (session()->has('message'))
-<p class="alert alert-info">{{ session('message') }}</p>
-@endif
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Data Pengguna</title>
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/fullcalendar/main.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('templates/dist/css/adminlte.min.css') }}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
+  <title>!</title>
 </head>
+
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
@@ -42,7 +26,7 @@
             <div class="card-header">
                 <form class="row row-cols-auto g-1">
                     <div class="col-11">
-                        <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i></button>
+                        <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i>Refresh</button>
                     </div>
                     <div class="col-1">
                         <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
@@ -60,7 +44,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                {{-- <?php $no = 1; ?>
+                <?php $no = 1; ?>
                 @foreach ($penggunas as $pengguna)
                     <tr>
                         <td>{{ $no++ }}</td>
@@ -68,16 +52,16 @@
                         <td>{{ $pengguna->email }}</td>
                         <td>{{ $pengguna->id_telegram }}</td>
                         <td>
-                            <a class="btn btn-warning" href="#"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></a>
+                            <a class="btn btn-warning" href="#"><i class="fa fa-pen" style="color: #ffffff;"></i></a>
                             <form method="POST" class="d-inline" action="#">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger"
-                                    onclick="return confirm('Are you sure to delete?')"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                                    onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash" style="color: #ffffff;"></i></button>
                             </form>
                         </td>
                     </tr>
-                @endforeach --}}
+                @endforeach
             </table>
     </div>
     </div>
@@ -114,6 +98,22 @@
 
 
 
+
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{{ asset('templates/plugins/fontawesome-free/css/all.min.css') }}">
+<!-- fullCalendar -->
+<link rel="stylesheet" href="{{ asset('templates/plugins/fullcalendar/main.css') }}">
+<!-- Theme style -->
+<link rel="stylesheet" href="{{ asset('templates/dist/css/adminlte.min.css') }}">
+<!-- overlayScrollbars -->
+<link rel="stylesheet" href="{{ asset('templates/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+<!-- Daterange picker -->
+<link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
+<!-- summernote -->
+<link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
 
 
 <!-- jQuery -->

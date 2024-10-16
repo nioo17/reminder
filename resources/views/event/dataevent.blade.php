@@ -31,23 +31,24 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Main content -->
-    <section class="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
       <div class="container-fluid">
-            <div class="card mb-3">
-              <div class="card-header">
+
+          <div class="card mb-3">
+            <div class="card-header">
                 <form class="row row-cols-auto g-1">
-                  <div class="col-11">
-                    <button class="btn btn-primary"><i class="fa fa-arrows-rotate" style="color: #ffffff;">Refresh</i></button>
-                  </div>
-                  <div class="col-1">
-                    <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
-                  </div>
+                    <div class="col-11">
+                        <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i>Refresh</button>
+                    </div>
+                    <div class="col-1">
+                        <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
+                    </div>
                 </form>
-              </div>
-              <div class="table-responsive">
-                <table class="table table-hover table-bordered table-striped m-0">
-                  <thead>
+            </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped m-0">
+                <thead>
                     <tr>
                         <th>No</th>
                         <th>Tanggal</th>
@@ -56,11 +57,40 @@
                         <th>Kategori</th>
                         <th>Action</th>
                     </tr>
-                  </thead>
-                </table>
-              </div>
+                </thead>
+                {{-- <?php $no = 1; ?>
+                @foreach ($penggunas as $pengguna)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $pengguna->nama }}</td>
+                        <td>{{ $pengguna->email }}</td>
+                        <td>{{ $pengguna->id_telegram }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="#"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></a>
+                            <form method="POST" class="d-inline" action="#">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger"
+                                    onclick="return confirm('Are you sure to delete?')"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach --}}
+            </table>
+    </div>
+    </div>
+    {{-- @if ($penggunas->hasPages())
+            <div class="card-footer">
+                {{ $penggunas->links() }}
             </div>
-      </div>
+     @endif --}}
+          </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+      </div><!-- /.container-fluid -->
     </section>
   </div>
   <!-- /.content-wrapper -->

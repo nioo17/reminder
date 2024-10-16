@@ -14,8 +14,8 @@ class PenggunaSeeder extends Seeder
     public function run(): void
     {
         DB::table('pengguna')->insert([
-            'nama' => 'Test User',
-            'email' => 'test@example.com',
+            'nama' => 'Pengguna 1',
+            'email' => 'pengguna1@example.com',
             'id_telegram' => '1234567890',
         ]);
     }
