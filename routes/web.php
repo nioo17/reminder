@@ -8,7 +8,7 @@ Route::get('/dashboard', function () {
 })->middleware('auth');
 
 Route::get('/event', function () {
-    return view('layouts.dataevent');
+    return view('event.dataevent');
 });
 
 Route::get('/pengguna', function () {

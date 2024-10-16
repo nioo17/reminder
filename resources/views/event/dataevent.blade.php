@@ -31,27 +31,36 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Dashboard</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Calendar</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-      </div><!-- /.container-fluid -->
+            <div class="card mb-3">
+              <div class="card-header">
+                <form class="row row-cols-auto g-1">
+                  <div class="col-11">
+                    <button class="btn btn-primary"><i class="fa fa-arrows-rotate" style="color: #ffffff;">Refresh</i></button>
+                  </div>
+                  <div class="col-1">
+                    <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
+                  </div>
+                </form>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped m-0">
+                  <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Pesan</th>
+                        <th>Gambar</th>
+                        <th>Kategori</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+      </div>
     </section>
   </div>
   <!-- /.content-wrapper -->
@@ -112,8 +121,5 @@
 <script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('/templates/dist/js/pages/dashboard.js') }}"></script>
-<!-- Page specific script -->
 </body>
 </html>

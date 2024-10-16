@@ -122,8 +122,6 @@
 <script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('/templates/dist/js/pages/dashboard.js') }}"></script>
 <!-- Page specific script -->
 <script>
   $(function () {

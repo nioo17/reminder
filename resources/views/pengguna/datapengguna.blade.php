@@ -49,38 +49,37 @@
                     </div>
                 </form>
             </div>
-
-          <div class="table-responsive">
-              <table class="table table-hover table-bordered table-striped m-0">
-                  <thead>
-                      <tr>
-                          <th>No</th>
-                          <th>Nama</th>
-                          <th>Email</th>
-                          <th>ID Telegram</th>
-                          <th>Action</th>
-                      </tr>
-                  </thead>
-                  <?php $no = 1; ?>
-                  {{-- @foreach ($penggunas as $pengguna) --}}
-                      <tr>
-                          <td>{{ $no++ }}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td>
-                              <a class="btn btn-warning" href="#"><i class="fa fa-pen" style="color: #ffffff;"></i></a>
-                              <form method="POST" class="d-inline" action="#">
-                                  @csrf
-                                  @method('DELETE')
-                                  <button class="btn btn-danger"
-                                      onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash" style="color: #ffffff;"></i></button>
-                              </form>
-                          </td>
-                      </tr>
-                  {{-- @endforeach --}}
-              </table>
-          </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped m-0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>ID Telegram</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                {{-- <?php $no = 1; ?>
+                @foreach ($penggunas as $pengguna)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $pengguna->nama }}</td>
+                        <td>{{ $pengguna->email }}</td>
+                        <td>{{ $pengguna->id_telegram }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="#"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></a>
+                            <form method="POST" class="d-inline" action="#">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger"
+                                    onclick="return confirm('Are you sure to delete?')"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach --}}
+            </table>
+    </div>
     </div>
     {{-- @if ($penggunas->hasPages())
             <div class="card-footer">
@@ -158,9 +157,5 @@
 <script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('/templates/dist/js/pages/dashboard.js') }}"></script>
-<!-- Page specific script -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
 </body>
 </html>
