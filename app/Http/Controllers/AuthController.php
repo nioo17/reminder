@@ -31,6 +31,7 @@ class AuthController extends Controller
                     'regex:/^(?=.*[a-z])(?=.*\d)[a-z\d]{2,}$/'
                 ],
             ]);
+            
     
             // Cari pengguna berdasarkan email
             $user = User::where('email', $credentials['email'])->first();
