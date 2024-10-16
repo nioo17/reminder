@@ -10,9 +10,7 @@ class PenggunaController extends Controller
     public function index(Request $request)
     {
         $title = 'Data Pengguna';
-        // $q = $request->query('q');
-        $penggunas = Pengguna::get();
-        $no = $penggunas->firstItem();
-        return view('pengguna.datapengguna', compact('title', 'penggunas', 'no'));
+        $penggunas = Pengguna::all();
+        return view('pengguna.datapengguna', compact('title', 'penggunas'));
     }
 }

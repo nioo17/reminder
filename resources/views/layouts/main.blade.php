@@ -92,8 +92,6 @@
 <!-- fullCalendar 2.2.5 -->
 <script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
 <script src="{{ asset('/templates/plugins/fullcalendar/main.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('/templates/dist/js/demo.js') }}"></script>
 <!-- jQuery -->
 <script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -125,8 +123,6 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('/templates/dist/js/demo.js') }}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('/templates/dist/js/pages/dashboard.js') }}"></script>
 <!-- Page specific script -->
 <script>
