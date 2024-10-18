@@ -37,7 +37,7 @@ class AuthController extends Controller
 
             // attempt to login
             if (!$user || !Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-                return redirect()->url('/')->with('gagal', 'Invalid credentials');
+                return redirect()->route('login')->with('gagal', 'Invalid credentials');
             }
 
             // generate token

@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengguna extends Model
 {
-    use HasFactory;
     protected $table = 'pengguna';
     protected $primarykey = 'id_pengguna';
-    protected $fillable = [
-        'nama',
-        'email',
-        'id_telegram'
-    ];
+        protected $fillable = [
+            'nama',
+            'email',
+            'id_telegram'
+        ];
+        use HasFactory;
+    use HasFactory;
 }
