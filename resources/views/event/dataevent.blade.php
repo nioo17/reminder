@@ -34,58 +34,55 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-
-          <div class="card mb-3">
-            <div class="card-header">
-                <form class="row row-cols-auto g-1">
-                    <div class="col-11">
-                        <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i>Refresh</button>
-                    </div>
-                    <div class="col-1">
-                        <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
-                    </div>
-                </form>
-            </div>
-        <div class="table-responsive">
+        <div class="card mb-3">
+          <div class="card-header">
+            <form class="row row-cols-auto g-1">
+              <!--@if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+              @endif-->
+              <div class="col-11">
+                  <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i>Refresh</button>
+              </div>
+              <div class="col-1">
+                  <a class="btn btn-secondary" href="{{ route('createevent.create') }}"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
+              </div>
+          </form>
+          <div class="table-responsive">
             <table class="table table-hover table-bordered table-striped m-0">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Pesan</th>
-                        <th>Gambar</th>
-                        <th>Kategori</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                {{-- <?php $no = 1; ?>
-                @foreach ($penggunas as $pengguna)
+              <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Pesan</th>
+                    <th>Gambar</th>
+                    <th>Kategori</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <?php $no = 1; ?>
+                @foreach ($events as $event)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td>{{ $pengguna->nama }}</td>
-                        <td>{{ $pengguna->email }}</td>
-                        <td>{{ $pengguna->id_telegram }}</td>
+                        <td>{{ $event->tanggal }}</td>
+                        <td>{{ $event->pesan }}</td>
+                        <td>{{ $event->gambar }}</td>
+                        <td>{{ $event->kategori }}</td>
                         <td>
-                            <a class="btn btn-warning" href="#"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></a>
+                            <a class="btn btn-warning" href="#"><i class="fa fa-pen" style="color: #ffffff;"></i></a>
                             <form method="POST" class="d-inline" action="#">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger"
-                                    onclick="return confirm('Are you sure to delete?')"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                                    onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash" style="color: #ffffff;"></i></button>
                             </form>
                         </td>
                     </tr>
-                @endforeach --}}
+                @endforeach
             </table>
-    </div>
-    </div>
-    {{-- @if ($penggunas->hasPages())
-            <div class="card-footer">
-                {{ $penggunas->links() }}
-            </div>
-     @endif --}}
           </div>
-      </div><!-- /.container-fluid -->
+          </div>
+        </div>
+      </div>
     </section>
     <!-- Main content -->
     <section class="content">
@@ -103,9 +100,6 @@
   </footer>
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
