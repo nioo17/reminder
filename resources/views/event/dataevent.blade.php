@@ -1,149 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Events</title>
+@extends('components.app')
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/fullcalendar/main.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('templates/dist/css/adminlte.min.css') }}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
-</head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-  <!-- Navbar -->
-  @include('components.navbar')
-  <!-- /.navbar -->
+@section('title', 'Data Event')
 
-  <!-- Main Sidebar Container -->
-  @include('components.sidebar')
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+@section('content')
+<div class="content-wrapper">
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="card mb-3">
-          <div class="card-header">
-            <form class="row row-cols-auto g-1">
-              <!--@if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-              @endif-->
-              <div class="col-11">
-                  <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i>Refresh</button>
-              </div>
-              <div class="col-1">
-                  <a class="btn btn-secondary" href="{{ route('createevent.create') }}"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
-              </div>
-          </form>
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered table-striped m-0">
-              <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal</th>
-                    <th>Pesan</th>
-                    <th>Gambar</th>
-                    <th>Kategori</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <?php $no = 1; ?>
-                @foreach ($events as $event)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $event->tanggal }}</td>
-                        <td>{{ $event->pesan }}</td>
-                        <td>{{ $event->gambar }}</td>
-                        <td>{{ $event->kategori }}</td>
-                        <td>
-                            <a class="btn btn-warning" href="#"><i class="fa fa-pen" style="color: #ffffff;"></i></a>
-                            <form method="POST" class="d-inline" action="#">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger"
-                                    onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash" style="color: #ffffff;"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-          </div>
-          </div>
+        <div class="container-fluid">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <form class="row row-cols-auto g-1">
+                        <div class="col-11">
+                            <button class="btn btn-primary">
+                                <i class="bi bi-arrow-repeat" style="color: #ffffff;"></i> Refresh
+                            </button>
+                        </div>
+                        <div class="col-1">
+                            <a class="btn btn-secondary" data-toggle="modal" data-target="#addEventModal">
+                                <i class="fa fa-plus" style="color: #ffffff;"></i> Add
+                            </a>
+                        </div>
+                    </form>
+
+                    @if (session('success'))
+                        <div class="alert alert-success mt-2">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped mt-2">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Pesan</th>
+                                    <th>Gambar</th>
+                                    <th>Kategori</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($events as $key => $event)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $event->tanggal }}</td>
+                                        <td>{{ $event->pesan }}</td>
+                                        <td>{{ $event->gambar }}</td>
+                                        <td>{{ ucfirst($event->kategori) }}</td>
+                                        <td>
+                                            <a class="btn btn-warning" data-toggle="modal" data-target="#editEventModal{{ $event->id_event }}">
+                                                <i class="fa fa-pen" style="color: #ffffff;"></i>
+                                            </a>
+                                            <form method="POST" class="d-inline" action="{{ route('event.destroy', $event->id_event) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">
+                                                    <i class="fa fa-trash" style="color: #ffffff;"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal for Edit Event -->
+                                    <div class="modal fade" id="editEventModal{{ $event->id_event }}" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel{{ $event->id_event }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editEventModalLabel{{ $event->id_event }}">Edit Event</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="POST" action="{{ route('event.update', $event->id_event) }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="tanggal">Tanggal</label>
+                                                            <input type="date" name="tanggal" class="form-control" value="{{ $event->tanggal }}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="pesan">Pesan</label>
+                                                            <textarea name="pesan" class="form-control" rows="3" required>{{ $event->pesan }}</textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="kategori">Kategori</label>
+                                                            <select name="kategori" class="form-control" required>
+                                                                <option value="hariraya" {{ $event->kategori == 'hariraya' ? 'selected' : '' }}>Hari Raya</option>
+                                                                <option value="harinasional" {{ $event->kategori == 'harinasional' ? 'selected' : '' }}>Hari Nasional</option>
+                                                                <option value="harikeagamaan" {{ $event->kategori == 'harikeagamaan' ? 'selected' : '' }}>Hari Keagamaan</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="gambar">Gambar (Tulis "eror" sementara)</label>
+                                                            <input type="text" name="gambar" class="form-control" value="{{ $event->gambar }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
-
-  <!-- Control Sidebar -->
-  <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- jQuery UI -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- fullCalendar 2.2.5 -->
-<script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('/templates/plugins/fullcalendar/main.js') }}"></script>
-<!-- jQuery -->
-<script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ asset('/templates/plugins/chart.js/Chart.min.js') }}"></script>
-<!-- Sparkline -->
-<script src="{{ asset('/templates/plugins/sparklines/sparkline.js') }}"></script>
-<!-- JQVMap -->
-<script src="{{ asset('/templates/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('/templates/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{ asset('/templates/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
-<script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('/templates/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('/templates/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- Summernote -->
-<script src="{{ asset('/templates/plugins/summernote/summernote-bs4.min.js') }}"></script>
-<!-- overlayScrollbars -->
-<script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
-</body>
-</html>
+<!-- Modal for Add Event -->
+<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEventModalLabel">Add Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('event.store') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal</label>
+                        <input type="date" name="tanggal" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesan">Pesan</label>
+                        <textarea name="pesan" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <select name="kategori" class="form-control" required>
+                            <option value="hariraya">Hari Raya</option>
+                            <option value="harinasional">Hari Nasional</option>
+                            <option value="harikeagamaan">Hari Keagamaan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gambar">Gambar (Tulis "eror" sementara)</label>
+                        <input type="text" name="gambar" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endsection

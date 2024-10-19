@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pengguna extends Model
+class pengguna extends Model
 {
     use HasFactory;
-    protected $table = 'pengguna';
-    protected $primarykey = 'id_pengguna';
-    protected $fillable = [
-        'nama',
-        'email',
-        'id_telegram'
-    ];
+    protected $table = 'penggunas'; // Nama tabel
+
+    protected $primaryKey = 'id_pengguna'; // Primary key custom
+
+    protected $fillable = ['nama', 'email', 'telegram'];
 }

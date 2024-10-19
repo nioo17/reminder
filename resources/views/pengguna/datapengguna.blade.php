@@ -1,159 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('components.app')
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Event</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/fullcalendar/main.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('templates/dist/css/adminlte.min.css') }}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
-</head>
+@section('title', 'Data Pengguna')
 
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-  <!-- Navbar -->
-  @include('components.navbar')
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  @include('components.sidebar')
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+@section('content')
+<div class="content-wrapper">
     <section class="content-header">
-      <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <form class="row row-cols-auto g-1">
+                        <div class="col-11">
+                            <button class="btn btn-primary">
+                                <i class="bi bi-arrow-repeat" style="color: #ffffff;"></i> Refresh
+                            </button>
+                        </div>
+                        <div class="col-1">
+                            <a class="btn btn-secondary" data-toggle="modal" data-target="#addPenggunaModal">
+                                <i class="fa fa-plus" style="color: #ffffff;"></i> Add
+                            </a>
+                        </div>
+                    </form>
 
-          <div class="card mb-3">
-            <div class="card-header">
-                <form class="row row-cols-auto g-1">
-                    <div class="col-11">
-                        <button class="btn btn-primary"><i class="bi bi-arrow-repeat" style="color: #ffffff;"></i>Refresh</button>
+                    @if (session('success'))
+                        <div class="alert alert-success mt-2">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped mt-2">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Id Telegram</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($penggunas as $key => $pengguna)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $pengguna->nama }}</td>
+                                        <td>{{ $pengguna->email }}</td>
+                                        <td>{{ $pengguna->telegram }}</td>
+                                        <td>
+                                            <a class="btn btn-warning" data-toggle="modal" data-target="#editPenggunaModal{{ $pengguna->id_pengguna }}">
+                                                <i class="fa fa-pen" style="color: #ffffff;"></i>
+                                            </a>
+                                            <form method="POST" class="d-inline" action="{{ route('pengguna.destroy', $pengguna->id_pengguna) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">
+                                                    <i class="fa fa-trash" style="color: #ffffff;"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal for Edit Pengguna -->
+                                    <div class="modal fade" id="editPenggunaModal{{ $pengguna->id_pengguna }}" tabindex="-1" role="dialog" aria-labelledby="editPenggunaModalLabel{{ $pengguna->id_pengguna }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editEventModalLabel{{ $pengguna->id_pengguna }}">Edit Pengguna</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="POST" action="{{ route('pengguna.update', $pengguna->id_pengguna) }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="nama">Nama</label>
+                                                            <input type="text" name="nama" class="form-control" value="{{ $pengguna->nama }}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="email">Pesan</label>
+                                                            <input type="email" name="email" class="form-control" value="{{ $pengguna->email }}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="telegram">Id Telegram</label>
+                                                            <input type="text" name="telegram" class="form-control" value="{{ $pengguna->telegram }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-1">
-                        <a class="btn btn-secondary" href="#"><i class="fa fa-plus" style="color: #ffffff;"></i> Add</a>
-                    </div>
-                </form>
+                </div>
             </div>
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered table-striped m-0">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>ID Telegram</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <?php $no = 1; ?>
-                @foreach ($penggunas as $pengguna)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $pengguna->nama }}</td>
-                        <td>{{ $pengguna->email }}</td>
-                        <td>{{ $pengguna->id_telegram }}</td>
-                        <td>
-                            <a class="btn btn-warning" href="#"><i class="fa fa-pen" style="color: #ffffff;"></i></a>
-                            <form method="POST" class="d-inline" action="#">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger"
-                                    onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash" style="color: #ffffff;"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-    </div>
-    </div>
-    {{-- @if ($penggunas->hasPages())
-            <div class="card-footer">
-                {{ $penggunas->links() }}
-            </div>
-     @endif --}}
-          </div>
-      </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
+<!-- Modal for Add Pengguna -->
+<div class="modal fade" id="addPenggunaModal" tabindex="-1" role="dialog" aria-labelledby="addPenggunaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPenggunaModalLabel">Add Pengguna</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('pengguna.store') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input type="text" name="nama" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telegram">Id Telegram</label>
+                        <input type="text" name="telegram" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-
-
-
-
-<!-- jQuery -->
-<script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- jQuery UI -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- fullCalendar 2.2.5 -->
-<script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('/templates/plugins/fullcalendar/main.js') }}"></script>
-<!-- jQuery -->
-<script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ asset('/templates/plugins/chart.js/Chart.min.js') }}"></script>
-<!-- Sparkline -->
-<script src="{{ asset('/templates/plugins/sparklines/sparkline.js') }}"></script>
-<!-- JQVMap -->
-<script src="{{ asset('/templates/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('/templates/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{ asset('/templates/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
-<script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('/templates/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('/templates/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- Summernote -->
-<script src="{{ asset('/templates/plugins/summernote/summernote-bs4.min.js') }}"></script>
-<!-- overlayScrollbars -->
-<script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
-</body>
-</html>
+@endsection

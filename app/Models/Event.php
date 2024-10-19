@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-    protected $table = 'events';
-    protected $primarykey = 'id_event';
-    protected $fillable = [
-        'tanggal',
-        'pesan',
-        'gambar',
-        'kategori'
-    ];
+    protected $table = 'events'; // Nama tabel
+
+    protected $primaryKey = 'id_event'; // Primary key custom
+
+    protected $fillable = ['tanggal', 'pesan', 'gambar', 'kategori']; 
 }

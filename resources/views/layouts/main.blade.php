@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reminder</title>
+  <title>Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -22,13 +22,9 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-  <!-- Navbar -->
   @include('components.navbar')
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
+  
   @include('components.sidebar')
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -81,44 +77,21 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
 <script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap -->
 <script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- jQuery UI -->
 <script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- fullCalendar 2.2.5 -->
 <script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
 <script src="{{ asset('/templates/plugins/fullcalendar/main.js') }}"></script>
-<!-- jQuery -->
-<script src="{{ asset('/templates/plugins/jquery/jquery.min.js') }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ asset('/templates/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>$.widget.bridge('uibutton', $.ui.button)</script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('/templates/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- ChartJS -->
 <script src="{{ asset('/templates/plugins/chart.js/Chart.min.js') }}"></script>
-<!-- Sparkline -->
 <script src="{{ asset('/templates/plugins/sparklines/sparkline.js') }}"></script>
-<!-- JQVMap -->
 <script src="{{ asset('/templates/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
 <script src="{{ asset('/templates/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<!-- jQuery Knob Chart -->
 <script src="{{ asset('/templates/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
-<script src="{{ asset('/templates/plugins/moment/moment.min.js') }}"></script>
 <script src="{{ asset('/templates/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('/templates/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- Summernote -->
 <script src="{{ asset('/templates/plugins/summernote/summernote-bs4.min.js') }}"></script>
-<!-- overlayScrollbars -->
 <script src="{{ asset('/templates/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<!-- AdminLTE App -->
 <script src="{{ asset('/templates/dist/js/adminlte.js') }}"></script>
 <!-- Page specific script -->
 <script>

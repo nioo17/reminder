@@ -13,10 +13,10 @@ class PenggunaSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('pengguna')->insert([
+        DB::table('penggunas')->insert([
             'nama' => 'Pengguna 1',
             'email' => 'pengguna1@example.com',
-            'id_telegram' => '1234567890',
+            'telegram' => '1234567890',
         ]);
     }
 }
