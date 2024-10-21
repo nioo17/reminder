@@ -10,71 +10,49 @@ class PenggunaController extends Controller
 {
     public function store(Request $request)
     {
-        $empData = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'id_telegram' => $request->address,
-        ];
-        Pengguna::create($empData);
-        return response()->json([
-            'status' => 200,
+        $penggunas = Pengguna::all();
+        return view('pengguna.datapengguna', compact('penggunas'));
+    }
+
+    public function store(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'telegram' => 'required|string|max:10'
         ]);
+
+        // Simpan data dari input form
+        Pengguna::create($request->all());
+
+        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil ditambahkan!'); // Redirect dengan pesan sukses
     }
 
-    public function getall()
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Pengguna $pengguna)
     {
-        $Penggunas = Pengguna::all();
-        return response()->json([
-            'status' => 200,
-            'Penggunas' => $Penggunas
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'telegramid' => 'required|string|max:10'
         ]);
+
+        // Update data event
+        $pengguna->update($request->all());
+
+        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil diperbarui!'); // Redirect dengan pesan sukses
     }
 
-    public function edit($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Pengguna $pengguna)
     {
-        $Pengguna = Pengguna::find($id);
-        if ($Pengguna) {
-            return response()->json([
-                'status' => 200,
-                'Pengguna' => $Pengguna
-            ]);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Pengguna not found'
-            ]);
-        }
+        $pengguna->delete(); // Menghapus event
+        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil dihapus!'); // Redirect dengan pesan sukses
     }
-
-    public function update(Request $request)
-    {
-        $Pengguna = Pengguna::find($request->id);
-        if ($Pengguna) {
-            $Pengguna->name = $request->name;
-            $Pengguna->email = $request->email;
-            $Pengguna->address = $request->address;
-            $Pengguna->phone = $request->phone;
-            $Pengguna->save();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Pengguna updated successfully'
-            ]);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Pengguna not found'
-            ]);
-        }
-    }
-
-    public function delete(Request $request)
-    {
-        $Pengguna = Pengguna::find($request->id);
-        if ($Pengguna && $Pengguna->delete()) {
-            return response()->json(['status' => 200, 'message' => 'Pengguna deleted successfully.']);
-        } else {
-            return response()->json(['status' => 400, 'message' => 'Failed to delete Pengguna.']);
-        }
-    }
-
 }
