@@ -66,7 +66,7 @@
       <!-- /.social-auth-links --> --}}
 
       <p class="mb-1">
-        <a href="">forgot password</a>
+        <a href="">forgot password your password?</a>
       </p>
       @if(session('gagal'))
         <p class="text-danger">{{ session('gagal') }}</p>

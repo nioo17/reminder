@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class PenggunaController extends Controller
 {
-    public function store(Request $request)
+    public function index()
     {
         $penggunas = Pengguna::all();
         return view('pengguna.datapengguna', compact('penggunas'));
@@ -38,7 +38,7 @@ class PenggunaController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'telegramid' => 'required|string|max:10'
+            'telegram' => 'required|string|max:10'
         ]);
 
         // Update data event
