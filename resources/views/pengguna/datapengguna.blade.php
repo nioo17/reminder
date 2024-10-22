@@ -20,13 +20,27 @@
                             </a>
                         </div>
                     </form>
-
+                    <div class="mt-2">
                     @if (session('success'))
                         <div class="alert alert-success mt-2">
                             {{ session('success') }}
                         </div>
                     @endif
-
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered table-striped mt-2">
                             <thead>
