@@ -16,35 +16,44 @@ class PenggunaController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'telegram' => 'required|string|max:10'
-        ]);
+        try {
+            $validated = $request->validate([
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email|unique:penggunas,email|max:255|',
+                'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram'
+            ]);
+            // Simpan data dari input form
+        Pengguna::create($validated);
 
-        // Simpan data dari input form
-        Pengguna::create($request->all());
-
-        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil ditambahkan!'); // Redirect dengan pesan sukses
+        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil ditambahkan!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi Kesalahan: ' . $e->getMessage());
+        }    
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Pengguna $pengguna)
+    
+    public function update(Request $request, $id)
     {
-        // Validasi input
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'telegram' => 'required|string|max:10'
-        ]);
+        try {
+            $validated = $request->validate([
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email|unique:penggunas,email,' . $id . ',id_pengguna',
+                'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram,' . $id . ',id_pengguna'
+            ]);
 
-        // Update data event
-        $pengguna->update($request->all());
+            $pengguna = Pengguna::findOrFail($id);
 
-        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil diperbarui!'); // Redirect dengan pesan sukses
+            $pengguna->update($validated);
+
+            return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil diperbarui!');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('pengguna.index')->with('error', 'Pengguna tidak ditemukan.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
