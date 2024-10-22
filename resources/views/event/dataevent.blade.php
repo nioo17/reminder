@@ -47,7 +47,7 @@
                                         <td>{{ $event->pesan }}</td>
                                         <td>
                                             @if ($event->gambar)
-                                                <img src="{{ asset('images/poster' . $event->gambar) }}" alt="Event Image" width="100">
+                                                <img src="{{ asset('images/poster/' . $event->gambar) }}" alt="Event Image" width="100">
                                             @else
                                                 <img src="{{ asset('images/poster/no_image.png') }}" alt="Default Image" width="100">
                                             @endif

@@ -21,7 +21,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         // Validasi input
-        $request->validate([
+        $validatedData = $request->validate([
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
             'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
@@ -36,7 +36,14 @@ class EventController extends Controller
             // Save the product with the file name
             $validatedData['gambar'] = $fileName; 
         }
+
         Event::create($validatedData);
+
+        // Event::create([
+        //     'tanggal' => 'required|date',
+        //     'pesan' => 'required|string|max:255',
+        //     'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
+        // ]);
 
         return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan!'); // Redirect dengan pesan sukses
     }
