@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    protected $event;
+    public function __construct(){
+        $this->event = new Event();
+    }  
     public function index()
     {
         $events = Event::all();
@@ -21,11 +25,18 @@ class EventController extends Controller
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
             'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
-            'gambar' => 'required|string|max:255', // Validasi gambar manual
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255', // Validasi gambar manual
         ]);
 
-        // Simpan data dari input form
-        Event::create($request->all());
+        if ($request->hasFile('gambar')) {
+            // Generate a unique file name
+            $fileName = time().$request->file('gambar')->getClientOriginalName();
+            // Move the uploaded file to the public/images directory
+            $request->file('gambar')->move(public_path('images/poster'), $fileName);
+            // Save the product with the file name
+            $validatedData['gambar'] = $fileName; 
+        }
+        Event::create($validatedData);
 
         return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan!'); // Redirect dengan pesan sukses
     }

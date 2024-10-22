@@ -45,7 +45,13 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $event->tanggal }}</td>
                                         <td>{{ $event->pesan }}</td>
-                                        <td>{{ $event->gambar }}</td>
+                                        <td>
+                                            @if ($event->gambar)
+                                                <img src="{{ asset('images/poster' . $event->gambar) }}" alt="Event Image" width="100">
+                                            @else
+                                                <img src="{{ asset('images/poster/no_image.png') }}" alt="Default Image" width="100">
+                                            @endif
+                                        </td>
                                         <td>{{ ucfirst($event->kategori) }}</td>
                                         <td>
                                             <a class="btn btn-warning" data-toggle="modal" data-target="#editEventModal{{ $event->id_event }}">
@@ -71,7 +77,7 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form method="POST" action="{{ route('event.update', $event->id_event) }}">
+                                                <form method="POST" action="{{ route('event.update', $event->id_event) }}" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
@@ -92,8 +98,8 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="gambar">Gambar (Tulis "eror" sementara)</label>
-                                                            <input type="text" name="gambar" class="form-control" value="{{ $event->gambar }}" required>
+                                                            <label for="gambar">Gambar</label>
+                                                            <input type="file" name="gambar" class="form-control" value="{{ $event->gambar }}">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -124,7 +130,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ route('event.store') }}">
+            <form method="POST" action="{{ route('event.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -144,8 +150,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="gambar">Gambar (Tulis "eror" sementara)</label>
-                        <input type="text" name="gambar" class="form-control" required>
+                        <label for="gambar">Gambar</label>
+                        <input type="file" name="gambar" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
