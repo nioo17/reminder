@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class PenggunaController extends Controller
 {
+    protected $allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com'];
+
     public function index()
     {
         $penggunas = Pengguna::all();
@@ -19,7 +21,17 @@ class PenggunaController extends Controller
         try {
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
-                'email' => 'required|email|unique:penggunas,email|max:255|',
+                'email' => [
+                    'required',
+                    'email',
+                    'unique:penggunas,email',
+                    function ($atribut, $value, $fail) {
+                        $domain = substr(strrchr($value, "@"), 1);
+                        if (!in_array($domain, $this->allowedDomains)) {
+                            $fail('Domain tidak dikenal. Gunakan domain: ' . implode(', ', $this->allowedDomains) . '.');
+                        }
+                    },
+                ],
                 'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram'
             ]);
             // Simpan data dari input form
@@ -38,7 +50,17 @@ class PenggunaController extends Controller
         try {
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
-                'email' => 'required|email|unique:penggunas,email,' . $id . ',id_pengguna',
+                'email' => [
+                    'required',
+                    'email',
+                    'unique:penggunas,email',
+                    function ($atribut, $value, $fail) {
+                        $domain = substr(strrchr($value, "@"), 1);
+                        if (!in_array($domain, $this->allowedDomains)) {
+                            $fail('Domain tidak dikenal. Gunakan domain: ' . implode(', ', $this->allowedDomains) . '.');
+                        }
+                    },
+                ],
                 'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram,' . $id . ',id_pengguna'
             ]);
 
