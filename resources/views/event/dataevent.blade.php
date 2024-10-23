@@ -40,6 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- @dd($events) --}}
                                 @foreach ($events as $key => $event)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
@@ -49,7 +50,7 @@
                                             @if ($event->gambar)
                                                 <img src="{{ asset('images/poster/' . $event->gambar) }}" alt="Event Image" width="100">
                                             @else
-                                                <img src="{{ asset('images/poster/no_image.png') }}" alt="Default Image" width="100">
+                                                <img src="{{ asset('images/no_image.png') }}" alt="Default Image" width="100">
                                             @endif
                                         </td>
                                         <td>{{ ucfirst($event->kategori) }}</td>
@@ -99,7 +100,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="gambar">Gambar</label>
-                                                            <input type="file" name="gambar" class="form-control" value="{{ $event->gambar }}">
+                                                            <input type="file" name="gambar" class="form-control">
+                                                            <div class="mt-2">
+                                                                <img src="{{ asset('images/poster/'.$event->gambar) }}" alt="Event Image" width="100">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
