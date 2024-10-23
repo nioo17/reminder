@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\File;
 class EventController extends Controller
 {
     protected $event;
-    public function __construct(){
+    public function __construct()
+    {
         $this->event = new Event();
-    }  
+    }
     public function index()
     {
         $events = Event::all();
@@ -30,9 +31,9 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $fileName = time().$request->file('gambar')->getClientOriginalName();
+            $fileName = time() . $request->file('gambar')->getClientOriginalName();
             $request->file('gambar')->move(public_path('images/poster'), $fileName);
-            $validatedData['gambar'] = $fileName; 
+            $validatedData['gambar'] = $fileName;
         }
 
         Event::create($validatedData);
@@ -53,14 +54,12 @@ class EventController extends Controller
             // 'gambar' => 'required|string|max:255', // Validasi gambar manual
         ]);
 
-        if($request->hasFile('gambar'))
-        {
-            $destination = "images/poster/".$event->gambar;
-            if(File::exists($destination))
-            {
+        if ($request->hasFile('gambar')) {
+            $destination = "images/poster/" . $event->gambar;
+            if (File::exists($destination)) {
                 File::delete($destination);
             }
-            $fileName = time().$request->file('gambar')->getClientOriginalName();
+            $fileName = time() . $request->file('gambar')->getClientOriginalName();
             $request->file('gambar')->move(public_path('images/poster'), $fileName);
             $validatedData['gambar'] = $fileName;
         }
@@ -76,7 +75,13 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        $destination = ('images/poster/' . $event->gambar);
+        if (File::exists($destination)) {
+            File::delete($destination);
+        }
+        // dd($event['gambar']);
         $event->delete(); // Menghapus event
+        //  nih disini unlink pathnya
         return redirect()->route('event.index')->with('success', 'Event berhasil dihapus!'); // Redirect dengan pesan sukses
     }
-}   
+}
