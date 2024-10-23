@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Events;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class EventController extends Controller
 {
@@ -29,21 +30,12 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            // Generate a unique file name
             $fileName = time().$request->file('gambar')->getClientOriginalName();
-            // Move the uploaded file to the public/images directory
             $request->file('gambar')->move(public_path('images/poster'), $fileName);
-            // Save the product with the file name
             $validatedData['gambar'] = $fileName; 
         }
 
         Event::create($validatedData);
-
-        // Event::create([
-        //     'tanggal' => 'required|date',
-        //     'pesan' => 'required|string|max:255',
-        //     'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
-        // ]);
 
         return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan!'); // Redirect dengan pesan sukses
     }
@@ -54,15 +46,27 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         // Validasi input
-        $request->validate([
+        $validatedData = $request->validate([
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
             'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
-            'gambar' => 'required|string|max:255', // Validasi gambar manual
+            // 'gambar' => 'required|string|max:255', // Validasi gambar manual
         ]);
 
+        if($request->hasFile('gambar'))
+        {
+            $destination = "images/poster/".$event->gambar;
+            if(File::exists($destination))
+            {
+                File::delete($destination);
+            }
+            $fileName = time().$request->file('gambar')->getClientOriginalName();
+            $request->file('gambar')->move(public_path('images/poster'), $fileName);
+            $validatedData['gambar'] = $fileName;
+        }
+
         // Update data event
-        $event->update($request->all());
+        $event->update($validatedData);
 
         return redirect()->route('event.index')->with('success', 'Event berhasil diperbarui!'); // Redirect dengan pesan sukses
     }
