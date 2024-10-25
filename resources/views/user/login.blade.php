@@ -45,11 +45,14 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row justify-content-center">
           <!-- /.col -->
-          <div class="col-4">
+          <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Log In</button>
           </div>
+          <p class="col-8 text-center mt-2">
+            <a href="#">forgot your password?</a>
+          </p>
           <!-- /.col -->
         </div>
       </form>
@@ -65,9 +68,7 @@
       </div>
       <!-- /.social-auth-links --> --}}
 
-      <p class="mb-1">
-        <a href="">forgot password your password?</a>
-      </p>
+     
       @if(session('gagal'))
         <p class="text-danger">{{ session('gagal') }}</p>
       @endif

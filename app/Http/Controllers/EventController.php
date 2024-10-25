@@ -51,6 +51,7 @@ class EventController extends Controller
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
             'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif',
             // 'gambar' => 'required|string|max:255', // Validasi gambar manual
         ]);
 
@@ -75,13 +76,13 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        //  nih disini delete filenya
         $destination = ('images/poster/' . $event->gambar);
         if (File::exists($destination)) {
             File::delete($destination);
         }
         // dd($event['gambar']);
         $event->delete(); // Menghapus event
-        //  nih disini unlink pathnya
         return redirect()->route('event.index')->with('success', 'Event berhasil dihapus!'); // Redirect dengan pesan sukses
     }
 }
