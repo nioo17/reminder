@@ -32,6 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Judul</th>
                                     <th>Tanggal</th>
                                     <th>Pesan</th>
                                     <th>Gambar</th>
@@ -44,6 +45,7 @@
                                 @foreach ($events as $key => $event)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
+                                        <td>{{ $event->judul }}</td>
                                         <td>{{ $event->tanggal }}</td>
                                         <td>{{ $event->pesan }}</td>
                                         <td>
@@ -82,6 +84,10 @@
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
+                                                        <div class="from-grup">
+                                                            <label for="judul">Judul</label>
+                                                            <input type="text" name="judul" class="form-control" value="{{ $event->judul }}" required>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label for="tanggal">Tanggal</label>
                                                             <input type="date" name="tanggal" class="form-control" value="{{ $event->tanggal }}" required>
@@ -93,9 +99,8 @@
                                                         <div class="form-group">
                                                             <label for="kategori">Kategori</label>
                                                             <select name="kategori" class="form-control" required>
-                                                                <option value="hariraya" {{ $event->kategori == 'hariraya' ? 'selected' : '' }}>Hari Raya</option>
-                                                                <option value="harinasional" {{ $event->kategori == 'harinasional' ? 'selected' : '' }}>Hari Nasional</option>
-                                                                <option value="harikeagamaan" {{ $event->kategori == 'harikeagamaan' ? 'selected' : '' }}>Hari Keagamaan</option>
+                                                                <option value="Hari Raya Keagamaan" {{ $event->kategori == 'Hari Raya Keagamaan' ? 'selected' : '' }}>Hari Raya Keagamaan</option>
+                                                                <option value="Hari Nasional" {{ $event->kategori == 'Hari Nasional' ? 'selected' : '' }}>Hari Nasional</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
@@ -137,6 +142,10 @@
             <form method="POST" action="{{ route('event.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
+                    <div class="from-grup">
+                        <label for="judul">Judul</label>
+                        <input type="text" name="judul" class="form-control" required>
+                    </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
                         <input type="date" name="tanggal" class="form-control" required>
@@ -148,9 +157,8 @@
                     <div class="form-group">
                         <label for="kategori">Kategori</label>
                         <select name="kategori" class="form-control" required>
-                            <option value="hariraya">Hari Raya</option>
-                            <option value="harinasional">Hari Nasional</option>
-                            <option value="harikeagamaan">Hari Keagamaan</option>
+                            <option value="Hari Raya Keagamaan">Hari Raya Keagamaan</option>
+                            <option value="Hari Nasional">Hari Nasional</option>
                         </select>
                     </div>
                     <div class="form-group">
