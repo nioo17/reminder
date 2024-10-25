@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id('id_event');
+            $table->string('judul');
             $table->date('tanggal');
             $table->text('pesan');
             $table->string('gambar')->nullable();
-            $table->enum('kategori', ['hariraya', 'harinasional', 'harikeagamaan']);
+            $table->enum('kategori', ['Hari Raya Keagamaan','Hari Nasional']);
             $table->timestamps();
         });
     }

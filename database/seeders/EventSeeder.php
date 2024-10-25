@@ -14,10 +14,11 @@ class EventSeeder extends Seeder
     public function run(): void
     {
         DB::table('events')->insert([
-            'tanggal' => '2005-01-17',
-            'pesan' => 'ulang tahun saya',
-            'gambar' => 'eror',
-            'kategori' => 'hariraya'
+            'judul' => 'Purnama',
+            'tanggal' => '2025-01-13',
+            'pesan' => 'Rahajeng Purnama',
+            'gambar' => '',
+            'kategori' => 'Hari Raya Keagamaan'
         ]);
     }
 }

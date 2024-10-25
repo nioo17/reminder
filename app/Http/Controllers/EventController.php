@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\File;
 
 class EventController extends Controller
 {
-    protected $event;
-    public function __construct()
-    {
-        $this->event = new Event();
-    }
     public function index()
     {
         $events = Event::all();
@@ -24,10 +19,11 @@ class EventController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
+            'judul' => 'required|string',
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
-            'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255', // Validasi gambar manual
+            'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255' // Validasi gambar manual
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -48,11 +44,11 @@ class EventController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
+            'judul'=> 'required|string',
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
-            'kategori' => 'required|in:hariraya,harinasional,harikeagamaan',
+            'kategori' => 'required|in:Hari Raya Keagamaan, Hari Nasional',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif',
-            // 'gambar' => 'required|string|max:255', // Validasi gambar manual
         ]);
 
         if ($request->hasFile('gambar')) {
