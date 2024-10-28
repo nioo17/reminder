@@ -10,6 +10,7 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // event
+Route::get('/get-calendar-events', [EventController::class, 'getCalendarEvents'])->name('calendar.events');
 Route::resource('event', EventController::class);
 
 //pengguna
