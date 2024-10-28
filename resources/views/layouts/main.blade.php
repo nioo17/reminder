@@ -30,6 +30,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
+            <div class="sticky-top mb-3"></div>
             <div class="card card-primary">
               <div class="card-body p-0">
                 <div id="calendar"></div>
@@ -76,18 +77,74 @@
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new Calendar(calendarEl, {
-      headerToolbar: {
-        left  : 'prev,next today',
-        center: 'title',
-        right : 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-
-      themeSystem: 'bootstrap'
-
+        headerToolbar: {
+            left  : 'prev,next today',
+            center: 'title',
+            right : 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        themeSystem: 'bootstrap',
+        events: '/get-calendar-events', // URL untuk mengambil events
+        eventDidMount: function(info) {
+            // Tambahkan tooltip untuk setiap event
+            $(info.el).popover({
+                title: info.event.title,
+                content: `
+                    <div>
+                        ${info.event.extendedProps.description}<br>
+                        ${info.event.extendedProps.imageUrl ? 
+                            `<img src="${info.event.extendedProps.imageUrl}" style="max-width:200px;margin-top:10px;">` 
+                            : ''}
+                    </div>
+                `,
+                trigger: 'hover',
+                placement: 'top',
+                html: true,
+                container: 'body'
+            });
+        },
+        eventClick: function(info) {
+            // Tampilkan modal dengan detail event ketika di-klik
+            var event = info.event;
+            var modalContent = `
+                <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">${event.title}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Tanggal:</strong> ${moment(event.start).format('DD MMMM YYYY')}</p>
+                                <p><strong>Pesan:</strong> ${event.extendedProps.description}</p>
+                                ${event.extendedProps.imageUrl ? 
+                                    `<img src="${event.extendedProps.imageUrl}" class="img-fluid mt-2" width="200">` 
+                                    : ''}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Hapus modal lama jika ada
+            $('#eventDetailModal').remove();
+            
+            // Tambahkan modal baru ke body
+            $('body').append(modalContent);
+            
+            // Tampilkan modal
+            $('#eventDetailModal').modal('show');
+        },
+        dayMaxEvents: true, // Tampilkan tombol "more" jika event terlalu banyak
+        displayEventTime: false // Sembunyikan waktu karena kita hanya menggunakan tanggal
     });
 
     calendar.render();
-  })
+});
 </script>
 </body>
 </html>

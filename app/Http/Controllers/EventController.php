@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\Events;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -13,6 +12,38 @@ class EventController extends Controller
     {
         $events = Event::all();
         return view('event.dataevent', compact('events'));
+    }
+
+    public function getCalendarEvents()
+    {
+        $events = Event::all();
+        
+        $calendarEvents = [];
+        
+        foreach($events as $event) {
+            $backgroundColor = '';
+            $textColor = 'white';
+            
+            // Sesuaikan warna berdasarkan kategori
+            if($event->kategori == 'Hari Raya Keagamaan') {
+                $backgroundColor = 'yellow';
+                $textColor = 'black';
+            } else if($event->kategori == 'Hari Nasional') {
+                $backgroundColor = 'green';
+            }
+            
+            $calendarEvents[] = [
+                'title' => $event->judul,
+                'start' => $event->tanggal,
+                'description' => $event->pesan,
+                'backgroundColor' => $backgroundColor,
+                'borderColor' => $backgroundColor,
+                'textColor' => $textColor,
+                'imageUrl' => $event->gambar ? asset('images/poster/' . $event->gambar) : asset('images/no_image.png')
+            ];
+        }
+        
+        return response()->json($calendarEvents);
     }
 
     public function store(Request $request)
