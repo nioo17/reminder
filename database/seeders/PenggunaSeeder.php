@@ -15,7 +15,7 @@ class PenggunaSeeder extends Seeder
     {
         DB::table('penggunas')->insert([
             'nama' => 'Pengguna 1',
-            'email' => 'pengguna1@example.com',
+            'email' => 'pengguna1@gmail.com',
             'telegram' => '1234567890',
         ]);
     }

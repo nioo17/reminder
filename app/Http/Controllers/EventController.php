@@ -29,6 +29,10 @@ class EventController extends Controller
                 $backgroundColor = 'yellow';
                 $textColor = 'black';
             } else if($event->kategori == 'Hari Nasional') {
+                $backgroundColor = 'red';
+            } else if($event->kategori == 'Hari Kerja') {
+                $backgroundColor = 'blue';
+            } else if($event->kategori == 'Jadwal Atasan') {
                 $backgroundColor = 'green';
             }
             
@@ -53,7 +57,7 @@ class EventController extends Controller
             'judul' => 'required|string',
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
-            'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional',
+            'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255' // Validasi gambar manual
         ]);
 
@@ -73,12 +77,11 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        // Validasi input
         $validatedData = $request->validate([
-            'judul'=> 'required|string',
+            'judul' => 'required|string',
             'tanggal' => 'required|date',
             'pesan' => 'required|string|max:255',
-            'kategori' => 'required|in:Hari Raya Keagamaan, Hari Nasional',
+            'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -92,10 +95,9 @@ class EventController extends Controller
             $validatedData['gambar'] = $fileName;
         }
 
-        // Update data event
         $event->update($validatedData);
 
-        return redirect()->route('event.index')->with('success', 'Event berhasil diperbarui!'); // Redirect dengan pesan sukses
+        return redirect()->route('event.index')->with('success', 'Event Berhasil diperbarui');
     }
 
     /**
