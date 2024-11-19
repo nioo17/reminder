@@ -19,6 +19,18 @@
   <link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
+  <style>
+    .custom-popover {
+      max-width: 300px; /* Atur lebar maksimal */
+      font-size: 14px; /* Ukuran teks */
+    }
+  
+    .custom-popover img {
+      width: 100px; /* Ubah ukuran gambar  layout-fixed sidebar-collapse */
+      height: auto;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -98,14 +110,21 @@
                     <div>
                         ${info.event.extendedProps.description}<br>
                         ${info.event.extendedProps.imageUrl ? 
-                            `<img src="${info.event.extendedProps.imageUrl}" style="max-width:200px;margin-top:10px;">` 
+                            `<img src="${info.event.extendedProps.imageUrl}" class="image-fluid">` 
                             : ''}
                     </div>
                 `,
                 trigger: 'hover',
                 placement: 'top',
                 html: true,
-                container: 'body'
+                container: 'body',
+                template: `
+                    <div class="popover custom-popover" role="tooltip">
+                        <div class="popover-arrow"></div>
+                        <h3 class="popover-header"></h3>
+                        <div class="popover-body"></div>
+                    </div>
+                `
             });
         },
         eventClick: function(info) {

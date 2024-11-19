@@ -101,6 +101,8 @@
                                                             <select name="kategori" class="form-control" required>
                                                                 <option value="Hari Raya Keagamaan" {{ $event->kategori == 'Hari Raya Keagamaan' ? 'selected' : '' }}>Hari Raya Keagamaan</option>
                                                                 <option value="Hari Nasional" {{ $event->kategori == 'Hari Nasional' ? 'selected' : '' }}>Hari Nasional</option>
+                                                                <option value="Hari Kerja" {{ $event->kategori == 'Hari Kerja' ? 'selected' : '' }}>Hari Kerja</option>
+                                                                <option value="Jadwal Atasan" {{ $event->kategori == 'Jadwal Atasan' ? 'selected' : '' }}>Jadwal Atasan</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
@@ -159,6 +161,8 @@
                         <select name="kategori" class="form-control" required>
                             <option value="Hari Raya Keagamaan">Hari Raya Keagamaan</option>
                             <option value="Hari Nasional">Hari Nasional</option>
+                            <option value="Hari Kerja">Hari Kerja</option>
+                            <option value="Jadwal Atasan">Jadwal Atasan</option>
                         </select>
                     </div>
                     <div class="form-group">
