@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('templates/plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
-<body>
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
         @include('components.navbar')
         @include('components.sidebar')

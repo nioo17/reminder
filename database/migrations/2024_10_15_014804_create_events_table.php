@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('pesan');
             $table->string('gambar')->nullable();
             $table->enum('kategori', ['Hari Raya Keagamaan','Hari Nasional', 'Hari Kerja', 'Jadwal Atasan']);
+            $table->boolean('is_sent')->default('0');
             $table->timestamps();
         });
     }

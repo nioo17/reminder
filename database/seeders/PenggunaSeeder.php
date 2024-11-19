@@ -18,5 +18,23 @@ class PenggunaSeeder extends Seeder
             'email' => 'pengguna1@example.com',
             'telegram' => '1234567890',
         ]);
+
+        DB::table('penggunas')->insert([
+            'nama' => 'Puyu',
+            'email' => 'putriayulestari621@gmail.com',
+            'telegram' => '564401018',
+        ]);
+
+        DB::table('penggunas')->insert([
+            'nama' => 'Nioo',
+            'email' => 'antoniowisu17@gmail.com',
+            'telegram' => '5151281421',
+        ]);
+
+        DB::table('penggunas')->insert([
+            'nama' => 'Diantari',
+            'email' => 'diantari192003@gmail.com',
+            'telegram' => '1271362249',
+        ]);
     }
 }
