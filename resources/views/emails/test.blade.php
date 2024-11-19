@@ -38,12 +38,10 @@
         <h2>Pemberitahuan!</h2>
         <p>{{ $messageContent }}</p>
 
-        <!-- Tampilkan gambar jika tersedia -->
         @if(!empty($gambarevent))
-            <img src="{{ asset('images/poster/' . $gambarevent) }}" alt="Event Image" class="event-image">
+            <img src="{{ $gambarevent }}" alt="Event Image" class="event-image">
         @endif
 
-        <!-- Tampilkan pesan event -->
         @if(!empty($pesanevent))
             <p>{{ $pesanevent }}</p>
         @endif

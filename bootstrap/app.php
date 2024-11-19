@@ -27,15 +27,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->call(function () {
             $currentDate = Carbon::now()->startOfDay();
             $targetDate = [
-                $currentDate->copy()->addDays(2),
-                $currentDate->copy()->addDays(1),
-                $currentDate
+                $currentDate->copy()->addDays(2)->format('y-m-d'),
+                $currentDate->copy()->addDays(1)->format('y-m-d'),
+                $currentDate->format('y-m-d')
             ];
+            $penggunas = Pengguna::all();
 
             $events = Event::whereIn('tanggal', $targetDate)->get();
             foreach ($events as $event){
-
-                $penggunas = Pengguna::all();
                 foreach ($penggunas as $pengguna) {
                     $messageContent = "Halo {$pengguna->nama}, ini adalah {$event->judul}.";
                     $pesanevent = "{$event->pesan}";
@@ -46,6 +45,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     Mail::to($pengguna->email)->send(new ReminderMail($messageContent, $pesanevent, $gambarevent));
                 }
             }
-        })->dailyAt('16:41');
+        })->dailyAt('11:54');
     })
     ->create();
