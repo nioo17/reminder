@@ -38,8 +38,10 @@
         <h2>Pemberitahuan!</h2>
         <p>{{ $messageContent }}</p>
 
-        @if(!empty($gambarevent))
+        @if(!empty($gambarevent) && file_exists(public_path('images/poster/' . basename($gambarevent))))
             <img src="{{ $gambarevent }}" alt="Event Image" class="event-image">
+        @else
+            <p></p>
         @endif
 
         @if(!empty($pesanevent))
