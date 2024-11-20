@@ -12,5 +12,5 @@ class Event extends Model
 
     protected $primaryKey = 'id_event'; // Primary key custom
 
-    protected $fillable = ['judul','tanggal', 'pesan', 'gambar', 'kategori', 'is_sent'];
+    protected $fillable = ['judul','tanggal', 'pesan', 'gambar', 'kategori'];
 }

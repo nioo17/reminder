@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_pengguna');
             $table->string('nama');
             $table->string('email')->unique();
-            $table->string('telegram')->unique();
+            $table->bigInteger('telegram')->unique();
             $table->timestamps();
         });
     }

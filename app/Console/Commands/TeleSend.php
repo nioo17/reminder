@@ -19,7 +19,7 @@ class TeleSend extends Command
             ->where('is_sent', false)
             ->get();
 
-        $users = DB::table('users')
+        $users = DB::table('penggunas')
             ->whereNotNull('telegram')
             ->get();
 
