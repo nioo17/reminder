@@ -45,6 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
                     Mail::to($pengguna->email)->send(new ReminderMail($messageContent, $pesanevent, $gambarevent));
                 }
             }
-        })->dailyAt('11:54');
+        })->dailyAt('16:49');
+
+        $schedule->command('tele-send')->dailyAt('16:51');
     })
     ->create();

@@ -24,12 +24,12 @@ class ReminderTelegram extends Command
                 ->whereDate('tanggal',  Carbon::tomorrow())
                 ->get();
 
-                Log::info($events);
+                // Log::info($events);
 
             foreach ($events as $event) {
                 $message = "<b>📢 Reminder: {$event->judul}</b>\n\n"
                          . "{$event->pesan}\n"
-                         . "Tanggal: {$event->tanggal}"; 
+                         . "Tanggal: " . Carbon::parse($event->tanggal)->format('d-m-Y'); 
             
                 foreach ($penggunas as $pengguna) {
                     Telegram::sendPhoto([
