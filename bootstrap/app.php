@@ -24,8 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (Schedule $schedule) {
+        // Menjadwalkan tugas yang akan dijalankan secara periodik
         $schedule->call(function () {
-            $currentDate = Carbon::now()->startOfDay();
+            // Mendapatkan tanggal saat ini dan dua tanggal ke depan
+            $currentDate = Carbon::now()->startOfDay(); // Memulai hari saat ini (jam 00:00)
             $targetDate = [
                 $currentDate->copy()->addDays(2)->format('y-m-d'),
                 $currentDate->copy()->addDays(1)->format('y-m-d'),
@@ -36,19 +38,23 @@ return Application::configure(basePath: dirname(__DIR__))
             $events = Event::whereIn('tanggal', $targetDate)->get();
             foreach ($events as $event){
                 foreach ($penggunas as $pengguna) {
+                    // Mengatur format tanggal event
                     $formatdate = Carbon::parse($event->tanggal)->format('d-m-Y');
 
+                    // Menyiapkan konten email yang akan dikirimkan
                     $messageContent = "Halo {$pengguna->nama}, pada tanggal {$formatdate} ada event {$event->judul} yang akan datang.";
                     $pesanevent = "{$event->pesan}";
                     $gambarevent = asset('images/poster/' . $event->gambar);
 
                     Log::info("Scheduler running at: " . now());
 
+                    // Mengirim email menggunakan mailable ReminderMail
                     Mail::to($pengguna->email)->send(new ReminderMail($messageContent, $pesanevent, $gambarevent));
                 }
             }
         })->dailyAt('16:49');
 
+        // Menjadwalkan tugas lain
         $schedule->command('tele-send')->dailyAt('16:51');
     })
     ->create();
