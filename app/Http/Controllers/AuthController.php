@@ -11,13 +11,17 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    // Fungsi untuk menampilkan halaman login kepada pengguna
     public function showLoginForm()
     {
         return view('user.login');
     }
 
+    // Fungsi untuk menangani proses login pengguna
     function login(Request $request) : object {
+        // Menangani eror menggunakan try catch
         try {
+            // Validasi input email dan password dari pengguna
             $data = $request->validate([
                 'email' => [
                     'required',
@@ -32,65 +36,28 @@ class AuthController extends Controller
                 ],
             ]);
             
-
+            // Cari pengguna berdasarkan email yang diberikan
             $user = User::where('email', $data['email'])->first();
 
-            // attempt to login
+            // Jika pengguna tidak ditemukan atau kredensial tidak valid, kembali ke halaman login dengan pesan error
             if (!$user || !Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
                 return redirect()->route('login')->with('gagal', 'Invalid Credentials');
             }
 
-            // generate token
+            // Regenerasi session setelah login berhasil untuk keamanan
             $request->session()->regenerate();
 
+            // Redirect pengguna ke dashboard dengan pesan sukses
             return redirect()->route('dashboard')->with('success', 'Login Berhasil');
         } catch (\Exception $th) {
+            // Jika terjadi error, kembali ke halaman sebelumnya dengan pesan error
             return redirect()->back()->with(
                 'gagal', $th->getMessage()
             );
         }
     }
-
-
-    // public function login(Request $request)
-    // {
-    //     try {
-    //         // Validasi input dengan regex untuk email dan password
-    //         $credentials = $request->validate([
-    //             'email' => [
-    //                 'required',
-    //                 'email',
-    //                 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
-    //             ],
-    //             'password' => [
-    //                 'required',
-    //                 'min:2',
-    //                 'regex:/^(?=.*[a-z])(?=.*\d)[a-z\d]{2,}$/'
-    //             ],
-    //         ]);
-            
     
-    //         // Cari pengguna berdasarkan email
-    //         $user = User::where('email', $credentials['email'])->first();
-    
-    //         if ($user) {
-    //             if (Hash::check($credentials['password'], $user->password)) {
-    //                 Auth::login($user);
-    //                 $request->session()->regenerate();
-    //                 return redirect()->intended('dashboard');
-    //             } else {
-    //                 return redirect()->back()->with('gagal', 'Password anda salah')->withInput();
-    //             }
-    //         } else {
-    //             return redirect()->back()->with('gagal', 'Email belum terdaftar')->withInput();
-    //         }
-    //     } catch (ValidationException $e) {
-    //         return redirect()->back()->withErrors($e->errors())->withInput();
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->with('gagal', 'Terjadi kesalahan: ' . $e->getMessage());
-    //     }
-    // }
-
+    // Fungsi untuk menangani proses logout pengguna
     public function logout(Request $request)
     {
         try {

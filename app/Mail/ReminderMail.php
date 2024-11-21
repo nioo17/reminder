@@ -12,6 +12,7 @@ class ReminderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    // Properti publik untuk menyimpan data yang akan dikirimkan dalam email
     public $messageContent;
     public $pesanevent;
     public $gambarevent;
@@ -19,6 +20,7 @@ class ReminderMail extends Mailable
     /**
      * Create a new message instance.
      */
+    // menerima data yang akan dikirimkan ke dalam email
     public function __construct($messageContent, $pesanevent, $gambarevent)
     {
         $this->messageContent = $messageContent;
@@ -29,6 +31,7 @@ class ReminderMail extends Mailable
     /**
      * Get the message envelope.
      */
+    // Fungsi ini digunakan untuk menentukan envelope atau header dari email
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -39,11 +42,15 @@ class ReminderMail extends Mailable
     /**
      * Get the message content definition.
      */
+    // Fungsi ini digunakan untuk menentukan file yang dilampirkan dalam email
     public function content(): Content
     {
         return new Content(
-            view: 'emails.test',
-            with: ['messageContent' => $this->messageContent, 'pesanevent' => $this->pesanevent, 'gambarevent' => $this->gambarevent]
+            view: 'emails.test', // View yang digunakan untuk email
+            with: [
+                'messageContent' => $this->messageContent,
+                'pesanevent' => $this->pesanevent,
+                'gambarevent' => $this->gambarevent]
 
         );
     }

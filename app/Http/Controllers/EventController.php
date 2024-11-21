@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\File;
 
 class EventController extends Controller
 {
+    // Fungsi untuk menampilkan semua data event pada halaman 'dataevent'
     public function index()
     {
         $events = Event::all();
         return view('event.dataevent', compact('events'));
     }
 
+    // Menampilkan event dalam kalender
     public function getCalendarEvents()
     {
         $events = Event::all();
@@ -36,6 +38,7 @@ class EventController extends Controller
                 $backgroundColor = 'green';
             }
             
+            // menampilkan pop up dalam kalender
             $calendarEvents[] = [
                 'title' => $event->judul,
                 'start' => $event->tanggal,
@@ -47,9 +50,11 @@ class EventController extends Controller
             ];
         }
         
+        // Mengembalikan data kalender dalam format JSON
         return response()->json($calendarEvents);
     }
 
+    // Fungsi untuk menyimpan data event baru ke dalam database
     public function store(Request $request)
     {
         try {
@@ -60,26 +65,27 @@ class EventController extends Controller
                 'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
                 'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255' // Validasi gambar manual
             ]);
-    
+
+            // Jika ada file gambar, proses dan simpan ke folder 'images/poster'
             if ($request->hasFile('gambar')) {
                 $fileName = time() . $request->file('gambar')->getClientOriginalName();
                 $request->file('gambar')->move(public_path('images/poster'), $fileName);
                 $validatedData['gambar'] = $fileName;
             }
     
-            Event::create($validatedData);
+            Event::create($validatedData); // Menyimpan data event ke database
     
             return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan!');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            // Jika terjadi error validasi, kembalikan ke halaman sebelumnya dengan pesan error
             return redirect()->back()->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {
+            // Jika terjadi error lain, kembalikan dengan pesan error
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Fungsi untuk memperbarui data event yang sudah ada
     public function update(Request $request, Event $event)
     {
         try {
@@ -90,7 +96,8 @@ class EventController extends Controller
                 'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
                 'gambar' => 'image|mimes:jpeg,png,jpg,gif',
             ]);
-    
+
+            // Jika ada file gambar baru, hapus gambar lama dan simpan gambar baru
             if ($request->hasFile('gambar')) {
                 $destination = "images/poster/" . $event->gambar;
                 if (File::exists($destination)) {
