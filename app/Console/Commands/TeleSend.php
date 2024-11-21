@@ -17,49 +17,63 @@ class TeleSend extends Command
     public function handle()
     {
         try {
+            // Mengambil token bot Telegram dari file .env
             $token = env('TELEGRAM_BOT_TOKEN');
 
-            $penggunas = Pengguna::whereNotNull('telegram')->get(['telegram','nama']);
+            // Mengambil data pengguna yang memiliki ID Telegram, termasuk nama mereka
+            $penggunas = Pengguna::whereNotNull('telegram')->get(['telegram', 'nama']);
+
+            // Mengambil data event yang memiliki tanggal besok
             $events = DB::table('events')
-                ->whereDate('tanggal',  Carbon::tomorrow())
+                ->whereDate('tanggal', Carbon::tomorrow())
                 ->get();
 
-                // Log::info($events);
-
+            // Iterasi melalui setiap event yang ditemukan
             foreach ($events as $event) {
+                // Iterasi melalui setiap pengguna yang akan menerima pengingat
                 foreach ($penggunas as $pengguna) {
+                    // Mendapatkan data ID Telegram dan nama pengguna
                     $chatId = $pengguna->telegram;
                     $nama = $pengguna->nama;
+
+                    // Mengatur format hari dan tanggal dalam bahasa Indonesia
                     $hari = Carbon::parse($event->tanggal)->locale('id')->isoFormat('dddd');
                     $tanggal = Carbon::parse($event->tanggal)->format('d-m-Y');
 
+                    // Membuat pesan pengingat dengan personalisasi nama dan informasi event
                     $message = "🔔 <b>REMINDER 🔔</b>\n\nSelamat pagi <i>{$nama}</i> ✨\n"
-                         . "<b>{$hari}</b>, {$tanggal} adalah <b>{$event->judul}</b>.\n"
-                         . "{$event->pesan}";
+                             . "<b>{$hari}</b>, {$tanggal} adalah <b>{$event->judul}</b>.\n"
+                             . "{$event->pesan}";
 
-
+                    // Memeriksa apakah ada gambar yang terkait dengan event
                     if (!empty($event->gambar)) {
+                        // Mendapatkan path gambar dari folder public
                         $photoPath = public_path('images/poster/' . $event->gambar);
-        
-                            Telegram::sendPhoto([
-                                'token' => $token,
-                                'chat_id' => $chatId,
-                                'photo' => InputFile::create($photoPath),
-                                'caption' => $message,
-                                'parse_mode' => 'HTML',
-                            ]);
+                        
+                        // Mengirimkan gambar dengan pesan
+                        Telegram::sendPhoto([
+                            'token' => $token, 
+                            'chat_id' => $chatId, 
+                            'photo' => InputFile::create($photoPath),
+                            'caption' => $message,
+                            'parse_mode' => 'HTML',
+                        ]);
                     } else {
+                        // Mengirimkan pesan teks saja jika tidak ada gambar
                         Telegram::sendMessage([
-                            'token' => $token,
-                            'chat_id' => $chatId,
+                            'token' => $token, 
+                            'chat_id' => $chatId, 
                             'text' => $message,
                             'parse_mode' => 'HTML',
                         ]);
                     }
-            } 
-        }
+                }
+            }
+
+            // Log pesan jika pengingat berhasil dikirim
             Log::info('Reminder sent successfully.');
         } catch (\Throwable $th) {
+            // Log pesan error jika terjadi kesalahan
             Log::info($th->getMessage());
         }
     }
