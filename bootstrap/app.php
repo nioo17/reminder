@@ -44,9 +44,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
                     Log::info("Scheduler running at: " . now());
 
-                    Mail::to($pengguna->email)->later(now()->addSecond(1), new ReminderMail($messageContent, $pesanevent, $gambarevent));
+                    Mail::to($pengguna->email)->send(new ReminderMail($messageContent, $pesanevent, $gambarevent));
                 }
             }
-        })->dailyAt('16:24');
+        })->dailyAt('10:56');
     })
     ->create();
