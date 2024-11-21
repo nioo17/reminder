@@ -23,18 +23,34 @@ class TeleSend extends Command
             // Mengambil data pengguna yang memiliki ID Telegram, termasuk nama mereka
             $penggunas = Pengguna::whereNotNull('telegram')->get(['telegram', 'nama']);
 
-            // Mengambil data event yang memiliki tanggal besok
+            
+            // Mengambil data event yang memiliki tanggal besok dan lusa
             $events = DB::table('events')
-                ->whereDate('tanggal', Carbon::tomorrow())
-                ->get();
+            ->whereBetween('tanggal', [
+                Carbon::tomorrow()->startOfDay(),
+                Carbon::tomorrow()->addDay(1),
+            ])
+            ->get();
 
-            // Iterasi melalui setiap event yang ditemukan
-            foreach ($events as $event) {
-                // Iterasi melalui setiap pengguna yang akan menerima pengingat
-                foreach ($penggunas as $pengguna) {
-                    // Mendapatkan data ID Telegram dan nama pengguna
-                    $chatId = $pengguna->telegram;
-                    $nama = $pengguna->nama;
+
+            // $events = DB::table('events')
+            //     ->whereDate('tanggal', Carbon::tomorrow())
+            //     ->get();
+
+            // Iterasi melalui setiap pengguna yang akan menerima pengingat
+            foreach ($penggunas as $pengguna) {
+                // Mendapatkan data ID Telegram dan nama pengguna
+                $chatId = $pengguna->telegram;
+                $nama = $pengguna->nama;
+
+                // Iterasi melalui setiap event yang ditemukan
+                foreach ($events as $event) {
+                    // Mengirim pesan kategori tertentu
+                    if ($event->kategori === 'Jadwal Atasan') {
+                        if ((string) $chatId !== '6969215754') {
+                            continue; // Skip pengguna lain jika ID tidak cocok
+                        }
+                    }
 
                     // Mengatur format hari dan tanggal dalam bahasa Indonesia
                     $hari = Carbon::parse($event->tanggal)->locale('id')->isoFormat('dddd');
