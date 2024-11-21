@@ -52,9 +52,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     Mail::to($pengguna->email)->send(new ReminderMail($messageContent, $pesanevent, $gambarevent));
                 }
             }
-        })->dailyAt('16:49');
+        })->dailyAt('14:07');
 
         // Menjadwalkan tugas lain
-        $schedule->command('tele-send')->dailyAt('16:51');
+        $schedule->command('tele-send')->dailyAt('14:07');
     })
     ->create();

@@ -107,7 +107,7 @@ class EventController extends Controller
                 $request->file('gambar')->move(public_path('images/poster'), $fileName);
                 $validatedData['gambar'] = $fileName;
             }
-    
+
             $event->update($validatedData);
     
             return redirect()->route('event.index')->with('success', 'Event Berhasil diperbarui');
@@ -123,13 +123,18 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //  nih disini delete filenya
-        $destination = ('images/poster/' . $event->gambar);
-        if (File::exists($destination)) {
-            File::delete($destination);
+        try {
+            // Cek dan hapus file
+            $destination = ('images/poster/' . $event->gambar);
+            if (File::exists($destination)) {
+                File::delete($destination);
+            }
+
+            $event->delete(); // Menghapus event
+            return redirect()->route('event.index')->with('success', 'Event berhasil dihapus!'); // Redirect dengan pesan sukses
+        } catch (\Exception $e) {
+            // Jika terjadi error, redirect dengan pesan error
+            return redirect()->route('event.index')->with('error', 'Terjadi kesalahan saat menghapus event: ' . $e->getMessage());
         }
-        // dd($event['gambar']);
-        $event->delete(); // Menghapus event
-        return redirect()->route('event.index')->with('success', 'Event berhasil dihapus!'); // Redirect dengan pesan sukses
     }
 }

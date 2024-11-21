@@ -93,7 +93,12 @@ class PenggunaController extends Controller
      */
     public function destroy(Pengguna $pengguna)
     {
-        $pengguna->delete(); // Menghapus event
-        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil dihapus!'); // Redirect dengan pesan sukses
+        try {
+            $pengguna->delete(); // Menghapus event
+            return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil dihapus!'); // Redirect dengan pesan sukses
+        } catch (\Exception $e) {
+            // Jika terjadi error, redirect dengan pesan error
+            return redirect()->route('event.index')->with('error', 'Terjadi kesalahan saat menghapus event: ' . $e->getMessage());
+        }
     }
 }
