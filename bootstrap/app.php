@@ -36,7 +36,9 @@ return Application::configure(basePath: dirname(__DIR__))
             $events = Event::whereIn('tanggal', $targetDate)->get();
             foreach ($events as $event){
                 foreach ($penggunas as $pengguna) {
-                    $messageContent = "Halo {$pengguna->nama}, ini adalah {$event->judul}.";
+                    $formatdate = Carbon::parse($event->tanggal)->format('d-m-Y');
+
+                    $messageContent = "Halo {$pengguna->nama}, pada tanggal {$formatdate} ada event {$event->judul} yang akan datang.";
                     $pesanevent = "{$event->pesan}";
                     $gambarevent = asset('images/poster/' . $event->gambar);
 

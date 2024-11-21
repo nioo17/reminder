@@ -52,24 +52,29 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
-        $validatedData = $request->validate([
-            'judul' => 'required|string',
-            'tanggal' => 'required|date',
-            'pesan' => 'required|string|max:255',
-            'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255' // Validasi gambar manual
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            $fileName = time() . $request->file('gambar')->getClientOriginalName();
-            $request->file('gambar')->move(public_path('images/poster'), $fileName);
-            $validatedData['gambar'] = $fileName;
+        try {
+            $validatedData = $request->validate([
+                'judul' => 'required|string',
+                'tanggal' => 'required|date',
+                'pesan' => 'required|string|max:255',
+                'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
+                'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:255' // Validasi gambar manual
+            ]);
+    
+            if ($request->hasFile('gambar')) {
+                $fileName = time() . $request->file('gambar')->getClientOriginalName();
+                $request->file('gambar')->move(public_path('images/poster'), $fileName);
+                $validatedData['gambar'] = $fileName;
+            }
+    
+            Event::create($validatedData);
+    
+            return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        Event::create($validatedData);
-
-        return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan!'); // Redirect dengan pesan sukses
     }
 
     /**
@@ -77,27 +82,33 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $validatedData = $request->validate([
-            'judul' => 'required|string',
-            'tanggal' => 'required|date',
-            'pesan' => 'required|string|max:255',
-            'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif',
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            $destination = "images/poster/" . $event->gambar;
-            if (File::exists($destination)) {
-                File::delete($destination);
+        try {
+            $validatedData = $request->validate([
+                'judul' => 'required|string',
+                'tanggal' => 'required|date',
+                'pesan' => 'required|string|max:255',
+                'kategori' => 'required|in:Hari Raya Keagamaan,Hari Nasional,Hari Kerja,Jadwal Atasan',
+                'gambar' => 'image|mimes:jpeg,png,jpg,gif',
+            ]);
+    
+            if ($request->hasFile('gambar')) {
+                $destination = "images/poster/" . $event->gambar;
+                if (File::exists($destination)) {
+                    File::delete($destination);
+                }
+                $fileName = time() . $request->file('gambar')->getClientOriginalName();
+                $request->file('gambar')->move(public_path('images/poster'), $fileName);
+                $validatedData['gambar'] = $fileName;
             }
-            $fileName = time() . $request->file('gambar')->getClientOriginalName();
-            $request->file('gambar')->move(public_path('images/poster'), $fileName);
-            $validatedData['gambar'] = $fileName;
+    
+            $event->update($validatedData);
+    
+            return redirect()->route('event.index')->with('success', 'Event Berhasil diperbarui');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        $event->update($validatedData);
-
-        return redirect()->route('event.index')->with('success', 'Event Berhasil diperbarui');
     }
 
     /**
