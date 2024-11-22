@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class PenggunaController extends Controller
 {
@@ -25,6 +25,8 @@ class PenggunaController extends Controller
             // Validasi input form
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
+                'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram',
+                'jabatan' => 'required|in:Karyawan,Atasan',
                 'email' => [
                     'required',
                     'email',
@@ -36,9 +38,10 @@ class PenggunaController extends Controller
                             $fail('Domain tidak dikenal. Gunakan domain: ' . implode(', ', $this->allowedDomains) . '.');
                         }
                     },
-                ],
-                'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram'
+                ]
             ]);
+
+        // Simpan pengguna baru
         Pengguna::create($validated);
 
         return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil ditambahkan!');
@@ -50,7 +53,7 @@ class PenggunaController extends Controller
             return redirect()->back()->with('error', 'Terjadi Kesalahan: ' . $e->getMessage());
         }    
     }
-    
+
     // Fungsi untuk memperbarui data pengguna
     public function update(Request $request, $id)
     {
@@ -58,19 +61,26 @@ class PenggunaController extends Controller
             // Validasi input form untuk pembaruan
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
+                // Telegram ID wajib, berupa angka, dan unik, kecuali untuk pengguna dengan ID saat ini
+                'telegram' => [
+                    'required',
+                    'numeric',
+                    'digits_between:9,10',
+                    Rule::unique('penggunas', 'telegram')->ignore($id, 'id_pengguna')
+                ],
+                'jabatan' => 'required|in:Karyawan,Atasan',
                 'email' => [
                     'required',
                     'email',
-                    'unique:penggunas,email',
+                    Rule::unique('penggunas', 'email')->ignore($id, 'id_pengguna'),
                     function ($atribut, $value, $fail) {
                         $domain = substr(strrchr($value, "@"), 1);
                         if (!in_array($domain, $this->allowedDomains)) {
                             $fail('Domain tidak dikenal. Gunakan domain: ' . implode(', ', $this->allowedDomains) . '.');
                         }
-                    },
+                    }
                 ],
-                // Telegram ID wajib, berupa angka, dan unik, kecuali untuk pengguna dengan ID saat ini
-                'telegram' => 'required|numeric|digits_between:9,10|unique:penggunas,telegram,' . $id . ',id_pengguna'
+                
             ]);
 
             // Mencari pengguna berdasarkan ID
@@ -98,7 +108,7 @@ class PenggunaController extends Controller
             return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil dihapus!'); // Redirect dengan pesan sukses
         } catch (\Exception $e) {
             // Jika terjadi error, redirect dengan pesan error
-            return redirect()->route('event.index')->with('error', 'Terjadi kesalahan saat menghapus event: ' . $e->getMessage());
+            return redirect()->route('pengguna.index')->with('error', 'Terjadi kesalahan saat menghapus event: ' . $e->getMessage());
         }
     }
 }

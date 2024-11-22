@@ -49,6 +49,7 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Id Telegram</th>
+                                    <th>Jabatan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,7 @@
                                         <td>{{ $pengguna->nama }}</td>
                                         <td>{{ $pengguna->email }}</td>
                                         <td>{{ $pengguna->telegram }}</td>
+                                        <td>{{ $pengguna->jabatan }}</td>
                                         <td>
                                             <a class="btn btn-warning" data-toggle="modal" data-target="#editPenggunaModal{{ $pengguna->id_pengguna }}">
                                                 <i class="fa fa-pen" style="color: #ffffff;"></i>
@@ -98,6 +100,13 @@
                                                         <div class="form-group">
                                                             <label for="telegram">Id Telegram</label>
                                                             <input type="text" name="telegram" class="form-control" value="{{ $pengguna->telegram }}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="jabatan">Jabatan</label>
+                                                            <select name="jabatan" class="form-control" required>
+                                                                <option value="Karyawan" {{ $pengguna->jabatan == 'Karyawan' ? 'selected' : '' }}>Karyawan</option>
+                                                                <option value="Atasan" {{ $pengguna->jabatan == 'Atasan' ? 'selected' : '' }}>Atasan</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -142,6 +151,13 @@
                     <div class="form-group">
                         <label for="telegram">Id Telegram</label>
                         <input type="text" name="telegram" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jabatan">Jabatan</label>
+                        <select name="jabatan" class="form-control" required>
+                            <option value="Karyawan">Karyawan</option>
+                            <option value="Atasan">Atasan</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

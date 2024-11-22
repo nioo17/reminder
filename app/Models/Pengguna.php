@@ -12,5 +12,5 @@ class Pengguna extends Model
 
     protected $primaryKey = 'id_pengguna'; // Primary key custom
 
-    protected $fillable = ['nama', 'email', 'telegram'];
+    protected $fillable = ['nama', 'email', 'telegram', 'jabatan'];
 }

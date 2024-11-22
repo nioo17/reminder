@@ -26,7 +26,7 @@
         }
         .event-image {
             width: 100%;
-            max-width: 500px;
+            max-width: 250px;
             height: auto;
             border-radius: 5px;
             margin: 20px 0;
@@ -37,15 +37,14 @@
     <div class="container">
         <h2>Pemberitahuan!</h2>
         <p>{{ $messageContent }}</p>
+        @if(!empty($pesanevent))
+            <p>{{ $pesanevent }}</p>
+        @endif
 
         @if(!empty($gambarevent) && file_exists(public_path('images/poster/' . basename($gambarevent))))
             <img src="{{ $gambarevent }}" alt="Event Image" class="event-image">
         @else
             <p></p>
-        @endif
-
-        @if(!empty($pesanevent))
-            <p>{{ $pesanevent }}</p>
         @endif
     </div>
 </body>

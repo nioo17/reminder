@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->bigInteger('telegram')->unique();
+            $table->enum('jabatan', ['Karyawan','Atasan']);
             $table->timestamps();
         });
     }

@@ -29,6 +29,7 @@ class TeleSend extends Command
             ->whereBetween('tanggal', [
                 Carbon::tomorrow()->startOfDay(),
                 Carbon::tomorrow()->addDay(1),
+                Carbon::now()->startOfDay()
             ])
             ->get();
 
